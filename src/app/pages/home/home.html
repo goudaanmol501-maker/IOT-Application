@@ -1,0 +1,87 @@
+<p>home works!</p>
+<div class="min-h-screen bg-gray-950">
+
+  <!-- Navbar -->
+  <app-nav></app-nav>
+
+  <div class="max-w-7xl mx-auto px-6 py-8">
+
+    <!-- Page Header -->
+    <div class="mb-8">
+      <h1 class="text-3xl font-bold text-white">Dashboard</h1>
+      <p class="text-gray-400 mt-1">Welcome back! Here's your home overview.</p>
+    </div>
+
+    <!-- Stats Row -->
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10">
+      <div *ngFor="let stat of stats"
+           class="bg-gray-800 rounded-xl p-5 flex items-center gap-4 border border-gray-700">
+        <div [class]="stat.color + ' w-12 h-12 rounded-lg flex items-center justify-center text-2xl'">
+          {{ stat.icon }}
+        </div>
+        <div>
+          <p class="text-2xl font-bold text-white">{{ stat.value }}</p>
+          <p class="text-gray-400 text-sm">{{ stat.label }}</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Devices Section -->
+    <div class="mb-6 flex items-center justify-between">
+      <h2 class="text-xl font-semibold text-white">My Devices</h2>
+      <span class="text-sm text-gray-400">{{ devices.length }} total</span>
+    </div>
+
+    <!-- Device Cards Grid -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+      <div *ngFor="let device of devices"
+           class="bg-gray-800 border border-gray-700 rounded-2xl p-5
+                  hover:border-blue-500 transition-all duration-200">
+
+        <!-- Card Header -->
+        <div class="flex items-start justify-between mb-4">
+          <div class="flex items-center gap-3">
+            <div class="w-12 h-12 bg-gray-700 rounded-xl flex items-center
+                        justify-center text-2xl">
+              {{ device.icon }}
+            </div>
+            <div>
+              <h3 class="text-white font-semibold text-sm">{{ device.name }}</h3>
+              <p class="text-gray-500 text-xs">{{ device.location }}</p>
+            </div>
+          </div>
+
+          <!-- Status Badge -->
+          <span [ngClass]="device.status === 'online'
+                  ? 'bg-green-500/20 text-green-400'
+                  : 'bg-red-500/20 text-red-400'"
+                class="text-xs px-2 py-1 rounded-full font-medium">
+            {{ device.status }}
+          </span>
+        </div>
+
+        <!-- Temp if available -->
+        <div *ngIf="device.temp"
+             class="mb-4 text-2xl font-bold text-blue-400">
+          {{ device.temp }}
+        </div>
+
+        <!-- Card Footer -->
+        <div class="flex items-center justify-between pt-3 border-t border-gray-700">
+          <span class="text-gray-500 text-xs">{{ device.type }}</span>
+
+          <!-- Toggle Button -->
+          <button (click)="toggleDevice(device)"
+                  [ngClass]="device.status === 'online'
+                    ? 'bg-blue-500 hover:bg-blue-600'
+                    : 'bg-gray-600 hover:bg-gray-500'"
+                  class="text-white text-xs px-3 py-1.5 rounded-lg transition font-medium">
+            {{ device.status === 'online' ? 'Turn Off' : 'Turn On' }}
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</div>
