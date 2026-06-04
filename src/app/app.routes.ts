@@ -4,6 +4,7 @@ import { Login} from './pages/login/login';
 
 export const routes: Routes = [
   { path: '', component: Home },
+  //{ path: 'devices', component: Home },
   { path: 'login', component: Login},
   { path: '**', redirectTo: '' }
 ];

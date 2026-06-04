@@ -1,87 +1,52 @@
-<p>home works!</p>
-<div class="min-h-screen bg-gray-950">
+<div class="relative min-h-screen bg-[url('/images/background-clean.png')] bg-cover bg-center overflow-hidden">
+    <div class="absolute inset-y-0 left-0 w-2/3 bg-gradient-to-r from-black via-black/80 to-transparent">
 
-  <!-- Navbar -->
-  <app-nav></app-nav>
-
-  <div class="max-w-7xl mx-auto px-6 py-8">
-
-    <!-- Page Header -->
-    <div class="mb-8">
-      <h1 class="text-3xl font-bold text-white">Dashboard</h1>
-      <p class="text-gray-400 mt-1">Welcome back! Here's your home overview.</p>
-    </div>
-
-    <!-- Stats Row -->
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10">
-      <div *ngFor="let stat of stats"
-           class="bg-gray-800 rounded-xl p-5 flex items-center gap-4 border border-gray-700">
-        <div [class]="stat.color + ' w-12 h-12 rounded-lg flex items-center justify-center text-2xl'">
-          {{ stat.icon }}
-        </div>
-        <div>
-          <p class="text-2xl font-bold text-white">{{ stat.value }}</p>
-          <p class="text-gray-400 text-sm">{{ stat.label }}</p>
-        </div>
-      </div>
-    </div>
-
-    <!-- Devices Section -->
-    <div class="mb-6 flex items-center justify-between">
-      <h2 class="text-xl font-semibold text-white">My Devices</h2>
-      <span class="text-sm text-gray-400">{{ devices.length }} total</span>
-    </div>
-
-    <!-- Device Cards Grid -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-      <div *ngFor="let device of devices"
-           class="bg-gray-800 border border-gray-700 rounded-2xl p-5
-                  hover:border-blue-500 transition-all duration-200">
-
-        <!-- Card Header -->
-        <div class="flex items-start justify-between mb-4">
-          <div class="flex items-center gap-3">
-            <div class="w-12 h-12 bg-gray-700 rounded-xl flex items-center
-                        justify-center text-2xl">
-              {{ device.icon }}
-            </div>
-            <div>
-              <h3 class="text-white font-semibold text-sm">{{ device.name }}</h3>
-              <p class="text-gray-500 text-xs">{{ device.location }}</p>
-            </div>
+  
+  <nav class="bg-black/50 p-4 text-white fixed w-full z-20 top-0 start-0 border-b border-default backdrop-blur-2xl">
+    <div class="w-full flex flex-wrap items-center justify-between mx-auto px-6 py-2">
+      <!-- Logo and Heading on Left -->
+      <a href="#" class="flex items-center space-x-3 rtl:space-x-reverse flex-shrink-0">
+          <img src="/images/Logo-image.png" class="h-10 w-20" alt="App Logo">
+          <span class="self-center text-xl text-heading font-semibold whitespace-nowrap"><span style="color: #1bbcd8;"> IIoT </span>Platform</span>
+      </a>
+      
+      <!-- Right Section: Nav Links and Buttons -->
+      <div class="flex md:order-2 items-center space-x-6 ml-auto">
+          <!-- Nav Links -->
+          <div class="hidden md:flex items-center space-x-8">
+            
+          <a href="#" class="block py-2 px-3 text-white bg-brand rounded-sm md:bg-transparent md:text-fg-brand md:p-0" aria-current="page">Home</a>
+        
+            <a href="#" class="text-heading hover:text-fg-brand">About</a>
+            <a href="#" class="text-heading hover:text-fg-brand">Services</a>
+            <a href="#" class="text-heading hover:text-fg-brand">Contact</a>
           </div>
-
-          <!-- Status Badge -->
-          <span [ngClass]="device.status === 'online'
-                  ? 'bg-green-500/20 text-green-400'
-                  : 'bg-red-500/20 text-red-400'"
-                class="text-xs px-2 py-1 rounded-full font-medium">
-            {{ device.status }}
-          </span>
-        </div>
-
-        <!-- Temp if available -->
-        <div *ngIf="device.temp"
-             class="mb-4 text-2xl font-bold text-blue-400">
-          {{ device.temp }}
-        </div>
-
-        <!-- Card Footer -->
-        <div class="flex items-center justify-between pt-3 border-t border-gray-700">
-          <span class="text-gray-500 text-xs">{{ device.type }}</span>
-
-          <!-- Toggle Button -->
-          <button (click)="toggleDevice(device)"
-                  [ngClass]="device.status === 'online'
-                    ? 'bg-blue-500 hover:bg-blue-600'
-                    : 'bg-gray-600 hover:bg-gray-500'"
-                  class="text-white text-xs px-3 py-1.5 rounded-lg transition font-medium">
-            {{ device.status === 'online' ? 'Turn Off' : 'Turn On' }}
+          
+          <!-- Get Started Button -->
+          <button type="button" class="text-white bg-gradient-to-br from-green-400 to-blue-600 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800 font-medium rounded-full text-sm px-4 py-2.5 text-center leading-5">Get Started</button>
+          
+          <!-- Mobile Menu Toggle -->
+          <button data-collapse-toggle="navbar-sticky" type="button" class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-body rounded-base md:hidden hover:bg-neutral-secondary-soft hover:text-heading focus:outline-none focus:ring-2 focus:ring-neutral-tertiary" aria-controls="navbar-sticky" aria-expanded="false">
+              <span class="sr-only">Open main menu</span>
+              <svg class="w-6 h-6" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M5 7h14M5 12h14M5 17h14"/></svg>
           </button>
-        </div>
-
       </div>
     </div>
-
+  </nav>
+  <div class="relative z-10 flex items-center min-h-screen">
+    <div class="max-w-xl px-12 text-white">
+      <h1 class="text-5xl font-bold mb-4">
+        Transform Your Industrial Operations
+      </h1>
+      <p class="text-lg text-gray-300">
+        Unlock Real-time Insights, Maximize Uptime, and Optimize
+        Asset Performance with our advanced Industrial IoT
+        Platform. Connect, monitor, and control you factory floor
+        assets securely.
+      </p>
+      
+      <button type="button" class="text-white bg-gradient-to-br from-green-400 to-blue-600 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800 font-medium rounded-full text-sm px-4 py-2.5 text-center leading-5">Get Started</button>
+    </div>
+     
   </div>
-</div>
+</div></div>

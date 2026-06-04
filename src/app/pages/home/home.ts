@@ -1,14 +1,13 @@
 import { Component } from '@angular/core';
-import { NgFor, NgClass } from '@angular/common';
-import {RouterLink} from '@angular/router';
+import { NgFor, NgClass, NgIf } from '@angular/common';
 import { Nav } from '../../component/nav/nav';
 
 @Component({
   selector: 'app-home',
   standalone:true,
-  imports: [RouterLink, Nav,   NgClass],
+  imports: [Nav, NgFor, NgClass, NgIf],
   templateUrl: './home.html',
-  styleUrl: './home.css',
+  styleUrls: ['./home.css'],
 })
 export class Home {
   
