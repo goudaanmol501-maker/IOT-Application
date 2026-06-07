@@ -1,32 +1,49 @@
-import { Component } from '@angular/core';
-import { NgFor, NgClass, NgIf } from '@angular/common';
+import { Component,AfterViewInit ,ChangeDetectorRef} from '@angular/core';
+import {  NgClass } from '@angular/common';
 import { Nav } from '../../component/nav/nav';
 
 @Component({
   selector: 'app-home',
   standalone:true,
-  imports: [Nav, NgFor, NgClass, NgIf],
+  imports: [Nav, NgClass, ],
   templateUrl: './home.html',
   styleUrls: ['./home.css'],
 })
-export class Home {
-  
-    stats = [
-    { label: 'Total Devices', value: 12, icon: '📱', color: 'bg-blue-500' },
-    { label: 'Online',        value: 8,  icon: '🟢', color: 'bg-green-500' },
-    { label: 'Offline',       value: 3,  icon: '🔴', color: 'bg-red-500' },
-    { label: 'Alerts',        value: 1,  icon: '⚠️', color: 'bg-yellow-500' },
-  ];
-  devices = [
-    { id: 1, name: 'Living Room Light',  type: 'Light',       status: 'online',  icon: '💡', location: 'Living Room', temp: null },
-    { id: 2, name: 'AC Unit',            type: 'Thermostat',  status: 'online',  icon: '❄️', location: 'Bedroom',     temp: '22°C' },
-    { id: 3, name: 'Front Door Lock',    type: 'Security',    status: 'online',  icon: '🔒', location: 'Entrance',    temp: null },
-    { id: 4, name: 'Kitchen Sensor',     type: 'Sensor',      status: 'offline', icon: '🌡️', location: 'Kitchen',     temp: null },
-    { id: 5, name: 'Garden Sprinkler',   type: 'Sprinkler',   status: 'offline', icon: '💧', location: 'Garden',      temp: null },
-    { id: 6, name: 'Security Camera',   type: 'Camera',      status: 'online',  icon: '📷', location: 'Garage',      temp: null },
+export class Home implements AfterViewInit {
+
+  stats=[
+    {target: 500, display: 0, suffix: '+', label:'Industries'},
+    {target: 10000, display: 0, suffix: '+', label:'Devices Connected'},
+    {target: 99, display: 0, suffix: '.9%', label:'Uptime'},
+    {target: 24, display: 0, suffix: '/7', label:'Support'},
   ];
 
-  toggleDevice(device: any) {
-    device.status = device.status === 'online' ? 'offline' : 'online';
+  constructor(private cdr: ChangeDetectorRef) {}
+
+  ngAfterViewInit(){
+    setTimeout(() => {
+      this.startCountUp();
+    },300);
+    
+  }
+
+  startCountUp(){
+    this.stats.forEach(stat => {
+      const duration = 2500;
+      const frameRate =16;
+      const totalFrames = duration / frameRate;
+      const increment = stat.target / totalFrames;
+      let current = 0;
+      const interval = setInterval(() =>{
+        current += increment;
+        if(current >= stat.target){
+          stat.display =stat.target;
+          clearInterval(interval);
+        }else{
+          stat.display = Math.floor(current);
+        }
+        this.cdr.detectChanges();
+      }, frameRate);
+    })
   }
 }
