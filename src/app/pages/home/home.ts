@@ -1,4 +1,4 @@
-import { Component,AfterViewInit ,ChangeDetectorRef} from '@angular/core';
+import { Component,AfterViewInit ,ElementRef,ViewChild,ChangeDetectorRef} from '@angular/core';
 import {  NgClass } from '@angular/common';
 import { Nav } from '../../component/nav/nav';
 import { Router } from '@angular/router';
@@ -11,6 +11,9 @@ import { Router } from '@angular/router';
 })
 export class Home implements AfterViewInit {
 
+   @ViewChild('bgVideo') bgVideo!: ElementRef<HTMLVideoElement>;
+
+  
   stats=[
     {target: 500, display: 0, suffix: '+', label:'Industries'},
     {target: 10000, display: 0, suffix: '+', label:'Devices Connected'},
@@ -24,7 +27,23 @@ export class Home implements AfterViewInit {
     setTimeout(() => {
       this.startCountUp();
     },300);
-    
+    const video = this.bgVideo.nativeElement;
+
+    // try to play immediately
+    video.play().catch(err => {
+      console.log('Autoplay blocked:', err);
+    });
+
+    // if video pauses for any reason, resume it
+    video.addEventListener('pause', () => {
+      video.play();
+    });
+
+    // if video ends (in case loop fails), restart it
+    video.addEventListener('ended', () => {
+      video.currentTime = 0;
+      video.play();
+    });
   }
 goToSignup() {
   this.router.navigate(['/signup']);

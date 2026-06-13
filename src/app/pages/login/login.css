@@ -1,0 +1,144 @@
+/* ===== SCANLINE EFFECT — moves across screen like a monitor ===== */
+@keyframes scanline {
+  0%   { transform: translateY(-100%); }
+  100% { transform: translateY(100vh); }
+}
+
+.scanline {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 40px;
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    rgba(27, 188, 216, 0.03),
+    transparent
+  );
+  animation: scanline 4s linear infinite;
+  pointer-events: none;
+  z-index: 999;
+}
+
+/* ===== CURSOR BLINK — like old terminal cursor ===== */
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}
+
+.terminal-cursor {
+  display: inline-block;
+  width: 10px;
+  height: 18px;
+  background-color: #1bbcd8;
+  animation: blink 1s step-end infinite;
+  vertical-align: middle;
+  margin-left: 4px;
+}
+
+/* ===== FLICKER — screen flicker on load ===== */
+@keyframes flicker {
+  0%   { opacity: 1; }
+  5%   { opacity: 0.85; }
+  10%  { opacity: 1; }
+  15%  { opacity: 0.9; }
+  20%  { opacity: 1; }
+  100% { opacity: 1; }
+}
+
+.flicker {
+  animation: flicker 2s ease-in-out 1;
+}
+
+/* ===== INPUT GLOW — cyan glow when typing ===== */
+@keyframes inputGlow {
+  0%   { box-shadow: 0 0 0px #1bbcd8; }
+  50%  { box-shadow: 0 0 12px #1bbcd8, 0 0 24px rgba(27,188,216,0.3); }
+  100% { box-shadow: 0 0 6px #1bbcd8; }
+}
+
+.input-glow {
+  animation: inputGlow 0.4s ease-out forwards;
+  border-color: #1bbcd8 !important;
+}
+
+/* ===== PULSE RIPPLE — on each keystroke ===== */
+@keyframes ripple {
+  0%   { transform: scale(1);   opacity: 0.6; }
+  100% { transform: scale(1.5); opacity: 0; }
+}
+
+.ripple-ring {
+  position: absolute;
+  inset: 0;
+  border: 1px solid #1bbcd8;
+  border-radius: 6px;
+  animation: ripple 0.5s ease-out forwards;
+  pointer-events: none;
+}
+
+/* ===== BUTTON PULSE — on hover ===== */
+@keyframes buttonPulse {
+  0%   { box-shadow: 0 0 0 0 rgba(27, 188, 216, 0.5); }
+  70%  { box-shadow: 0 0 0 12px rgba(27, 188, 216, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(27, 188, 216, 0); }
+}
+
+.btn-pulse:hover {
+  animation: buttonPulse 1s infinite;
+}
+
+/* ===== ACCESS GRANTED — success flash ===== */
+@keyframes accessGranted {
+  0%   { border-color: #22c55e; box-shadow: 0 0 0px #22c55e; }
+  50%  { border-color: #22c55e; box-shadow: 0 0 30px #22c55e; }
+  100% { border-color: #22c55e; box-shadow: 0 0 10px #22c55e; }
+}
+
+.access-granted {
+  animation: accessGranted 0.6s ease-out forwards;
+}
+
+/* ===== ACCESS DENIED — error shake ===== */
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20%       { transform: translateX(-8px); }
+  40%       { transform: translateX(8px); }
+  60%       { transform: translateX(-6px); }
+  80%       { transform: translateX(6px); }
+}
+
+.access-denied {
+  animation: shake 0.5s ease-out forwards;
+  border-color: #ef4444 !important;
+  box-shadow: 0 0 20px rgba(239, 68, 68, 0.4);
+}
+
+/* ===== FADE SLIDE IN — form entrance ===== */
+@keyframes fadeSlideIn {
+  0%   { opacity: 0; transform: translateY(30px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+.fade-slide-in {
+  animation: fadeSlideIn 0.8s ease-out forwards;
+}
+
+/* ===== LOADING DOTS — on submit ===== */
+@keyframes dot {
+  0%, 80%, 100% { opacity: 0; transform: scale(0.8); }
+  40%           { opacity: 1; transform: scale(1); }
+}
+
+.dot-1 { animation: dot 1.2s infinite 0s; }
+.dot-2 { animation: dot 1.2s infinite 0.2s; }
+.dot-3 { animation: dot 1.2s infinite 0.4s; }
+
+/* ===== TERMINAL SCREEN BORDER GLOW ===== */
+.terminal-border {
+  box-shadow:
+    0 0 20px rgba(27, 188, 216, 0.15),
+    0 0 60px rgba(27, 188, 216, 0.05),
+    inset 0 0 30px rgba(0, 0, 0, 0.5);
+}
