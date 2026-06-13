@@ -1,0 +1,178 @@
+<!-- SCANLINE — always running across screen -->
+<div class="scanline"></div>
+
+<!-- FULL PAGE — dark terminal background -->
+<div class="flicker min-h-screen bg-gray-950 flex items-center
+            justify-center px-4 font-mono relative overflow-hidden">
+
+  <!-- Background grid pattern -->
+  <div class="absolute inset-0 opacity-5"
+       style="background-image:
+         linear-gradient(#1bbcd8 1px, transparent 1px),
+         linear-gradient(90deg, #1bbcd8 1px, transparent 1px);
+         background-size: 40px 40px;">
+  </div>
+
+  <!-- TERMINAL CARD -->
+  <div class="fade-slide-in terminal-border relative z-10 w-full max-w-md
+              bg-gray-900 border border-[#1bbcd8]/30 rounded-lg p-8">
+
+    <!-- Terminal top bar -->
+    <div class="flex items-center gap-2 mb-6 pb-4 border-b border-gray-700">
+      <div class="w-3 h-3 rounded-full bg-red-500"></div>
+      <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
+      <div class="w-3 h-3 rounded-full bg-green-500"></div>
+      <span class="ml-3 text-gray-500 text-xs tracking-widest">
+        IIOT_PLATFORM — OPERATOR REGISTRATION
+      </span>
+    </div>
+
+    <!-- Terminal header text -->
+    <div class="mb-8">
+      <p class="text-[#1bbcd8] text-xs tracking-widest mb-1">
+        SYSTEM READY
+      </p>
+      <h1 class="text-white text-2xl font-bold tracking-wide">
+        REGISTER OPERATOR
+        <span class="terminal-cursor"></span>
+      </h1>
+      <p class="text-gray-500 text-xs mt-2 tracking-widest">
+        INITIALIZE NEW TERMINAL ACCESS
+      </p>
+    </div>
+
+    <!-- FORM -->
+    <form (ngSubmit)="onSubmit()" [ngClass]="{'access-denied': formState === 'error',
+                                              'access-granted': formState === 'success'}"
+          class="space-y-5 border border-transparent rounded-lg p-1 transition-all">
+
+      <!-- EMAIL FIELD -->
+      <div class="space-y-1">
+        <label class="text-[#1bbcd8] text-xs tracking-widest">
+          NODE ID (EMAIL)
+        </label>
+        <div class="relative">
+          <!-- ripple ring fires on keystroke -->
+          @if (emailRipple) {
+            <div class="ripple-ring"></div>
+          }
+          <input
+            type="email"
+            [(ngModel)]="email"
+            name="email"
+            (input)="onEmailInput()"
+            (focus)="emailActive = true"
+            (blur)="emailActive = false"
+            placeholder="operator@facility.com"
+            [ngClass]="{'input-glow': emailActive}"
+            class="w-full bg-gray-800 border border-gray-600 text-white
+                   text-sm rounded px-4 py-3 outline-none transition-all
+                   placeholder-gray-600 tracking-wide
+                   focus:border-[#1bbcd8]" />
+          <!-- live dot — shows when typing -->
+          @if (email.length > 0) {
+            <span class="absolute right-3 top-3.5 w-2 h-2
+                         bg-[#1bbcd8] rounded-full animate-pulse">
+            </span>
+          }
+        </div>
+      </div>
+
+      <!-- PASSWORD FIELD -->
+      <div class="space-y-1">
+        <label class="text-[#1bbcd8] text-xs tracking-widest">
+          ENCRYPTION KEY (PASSWORD)
+        </label>
+        <div class="relative">
+          @if (passwordRipple) {
+            <div class="ripple-ring"></div>
+          }
+          <input
+            [type]="showPassword ? 'text' : 'password'"
+            [(ngModel)]="password"
+            name="password"
+            (input)="onPasswordInput()"
+            (focus)="passwordActive = true"
+            (blur)="passwordActive = false"
+            placeholder="Min. 6 characters"
+            [ngClass]="{'input-glow': passwordActive}"
+            class="w-full bg-gray-800 border border-gray-600 text-white
+                   text-sm rounded px-4 py-3 pr-10 outline-none transition-all
+                   placeholder-gray-600 tracking-widest
+                   focus:border-[#1bbcd8]" />
+          <!-- show/hide toggle -->
+          <button type="button" (click)="togglePassword()"
+                  class="absolute right-3 top-3 text-gray-500
+                         hover:text-[#1bbcd8] transition-colors text-sm">
+            {{ showPassword ? '🙈' : '👁️' }}
+          </button>
+        </div>
+
+        <!-- PASSWORD STRENGTH METER -->
+        @if (password.length > 0) {
+          <div class="mt-2 space-y-1">
+            <!-- 4 bar meter -->
+            <div class="flex gap-1">
+              @for (bar of [1,2,3,4]; track bar) {
+                <div class="h-1 flex-1 rounded-full transition-all duration-300"
+                     [ngClass]="bar <= passwordStrength
+                       ? (passwordStrength === 1 ? 'bg-red-400'
+                        : passwordStrength === 2 ? 'bg-yellow-400'
+                        : passwordStrength === 3 ? 'bg-blue-400'
+                        : 'bg-green-400')
+                       : 'bg-gray-700'">
+                </div>
+              }
+            </div>
+            <!-- strength label -->
+            <p class="text-xs tracking-widest" [ngClass]="strengthColor">
+              SECURITY LEVEL: {{ strengthLabel }}
+            </p>
+          </div>
+        }
+      </div>
+
+      <!-- STATUS MESSAGE -->
+      @if (statusMessage) {
+        <div [ngClass]="formState === 'success' ? 'text-green-400 border-green-400/30'
+                                                 : 'text-red-400 border-red-400/30'"
+             class="text-xs tracking-widest border rounded px-3 py-2 bg-gray-800">
+          {{ statusMessage }}
+        </div>
+      }
+
+      <!-- SUBMIT BUTTON -->
+      <button type="submit"
+              [disabled]="isLoading"
+              class="btn-pulse w-full bg-[#1bbcd8] hover:bg-[#17a8c2]
+                     text-gray-950 font-bold py-3 rounded text-sm
+                     tracking-widest transition-all duration-300
+                     disabled:opacity-50 disabled:cursor-not-allowed mt-2">
+
+        @if (isLoading) {
+          <!-- loading dots animation -->
+          <span class="flex items-center justify-center gap-1">
+            INITIALIZING
+            <span class="dot-1 w-1.5 h-1.5 bg-gray-900 rounded-full inline-block"></span>
+            <span class="dot-2 w-1.5 h-1.5 bg-gray-900 rounded-full inline-block"></span>
+            <span class="dot-3 w-1.5 h-1.5 bg-gray-900 rounded-full inline-block"></span>
+          </span>
+        } @else {
+          INITIALIZE ACCESS
+        }
+
+      </button>
+
+      <!-- LINK TO LOGIN -->
+      <p class="text-center text-gray-600 text-xs tracking-widest pt-2">
+        ALREADY REGISTERED?
+        <a routerLink="/login"
+           class="text-[#1bbcd8] hover:text-white transition-colors ml-1">
+          ACCESS TERMINAL →
+        </a>
+      </p>
+
+    </form>
+
+  </div>
+</div>
