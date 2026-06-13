@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgClass } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
+import { Auth } from '../../services/auth';
 
 @Component({
   selector: 'app-signup',
@@ -16,11 +17,8 @@ import { Router, RouterLink } from '@angular/router';
 })
 export class Signup {
 
-  // form fields
   email    = '';
   password = '';
-
-  // ui state
   showPassword    = false;
   isLoading       = false;
   formState       = '';
@@ -30,7 +28,7 @@ export class Signup {
   emailActive     = false;
   passwordActive  = false;
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private auth: Auth) {}
 
   get passwordStrength(): number {
     let score = 0;
@@ -106,15 +104,20 @@ export class Signup {
 
     // simulate API — 2 seconds
     setTimeout(() => {
+      const success = this.auth.registerUser(this.email, this.password);
       this.isLoading     = false;
-      this.formState     = 'success';
-      this.statusMessage = 'ACCESS GRANTED — INITIALIZING TERMINAL...';
-
+      if(success){
+        this.formState     = 'success';
+        this.statusMessage = 'ACCESS GRANTED — INITIALIZING TERMINAL...';
+       
       // navigate to login after success
       setTimeout(() => {
         this.router.navigate(['/login']);
       }, 1500);
-
+    } else{
+      this.formState     = 'error';
+      this.statusMessage = 'ACCESS DENIED — USER ALREADY EXISTS';
+    }
     }, 2000);
   }
 }
