@@ -1,11 +1,11 @@
 import { Component,AfterViewInit ,ChangeDetectorRef} from '@angular/core';
 import {  NgClass } from '@angular/common';
 import { Nav } from '../../component/nav/nav';
-
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-home',
   standalone:true,
-  imports: [Nav, NgClass, ],
+  imports: [Nav, NgClass],
   templateUrl: './home.html',
   styleUrls: ['./home.css'],
 })
@@ -18,7 +18,7 @@ export class Home implements AfterViewInit {
     {target: 24, display: 0, suffix: '/7', label:'Support'},
   ];
 
-  constructor(private cdr: ChangeDetectorRef) {}
+  constructor(private cdr: ChangeDetectorRef,private router: Router) {}
 
   ngAfterViewInit(){
     setTimeout(() => {
@@ -26,7 +26,9 @@ export class Home implements AfterViewInit {
     },300);
     
   }
-
+goToSignup() {
+  this.router.navigate(['/signup']);
+}
   startCountUp(){
     this.stats.forEach(stat => {
       const duration = 2500;
